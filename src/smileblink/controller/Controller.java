@@ -62,7 +62,8 @@ public class Controller {
         absoluteFaceSize = 0;
 
         String pathCascade = "resources/haarcascades/";
-        pathFaceCascade = pathCascade + "haarcascade_frontalface_alt2.xml";
+        //pathFaceCascade = pathCascade + "haarcascade_frontalface_alt2.xml";
+        pathFaceCascade = pathCascade + "Hand_Cascade_1.xml";
         pathSmileCascade = pathCascade + "haarcascade_smile.xml";
         pathEyeCascade = pathCascade + "haarcascade_eye.xml";
         timeSmile = 0;
@@ -173,8 +174,8 @@ public class Controller {
 
         if (absoluteFaceSize == 0) {
             int height = grayFrame.rows();
-            if (Math.round(height * 0.2f) > 0) {
-                absoluteFaceSize = Math.round(height * 0.2f);
+            if (Math.round(height * 0.1f) > 0) {
+                absoluteFaceSize = Math.round(height * 0.1f);
             }
         }
 
@@ -187,7 +188,7 @@ public class Controller {
                     grayFrame,
                     faces,
                     1.1,
-                    2,
+                    30,
                     Objdetect.CASCADE_SCALE_IMAGE,
                     new Size(absoluteFaceSize, absoluteFaceSize),
                     new Size()
@@ -195,6 +196,11 @@ public class Controller {
             facesArray = faces.toArray();
             for (int i = 0; i < facesArray.length; i++) {
                 Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(34.0, 87.0, 255.0), 3);
+                /*if (i > 0) {
+                    if (facesArray[i].x - facesArray[i - 1].x <= 0) {
+
+                    }
+                }*/
                 latestBrFace = facesArray[i].br();
                 latestTlFace = facesArray[i].tl();
             }
